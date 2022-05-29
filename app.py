@@ -1,5 +1,6 @@
 import os
 
+import flask
 from flask import Flask, request, url_for, flash, redirect, render_template, send_from_directory
 from mp3stego import Steganography
 from werkzeug.utils import secure_filename
@@ -39,7 +40,7 @@ def mp3_to_wav(input_file_name, output_file_path, _):
 
 
 funcs = {'hide_msg': (hide_msg, 'output.mp3'), 'reveal_msg': (reveal_msg, 'reveal.txt'),
-         'clear_file': (clear_file, 'cleared_file.mp3'), 'wav_to_mp3': (wav_to_mp3, 'output.mp3'),
+         'clear_file': (clear_file, 'cleared.mp3'), 'wav_to_mp3': (wav_to_mp3, 'output.mp3'),
          'mp3_to_wav': (mp3_to_wav, 'output.wav')}
 
 
@@ -75,7 +76,7 @@ def upload_file(func_name):
             except BaseException as err:
                 return ERR_TEMPLATE_BEFORE_ERR + str(err) + ERR_TEMPLATE_AFTER_ERR
 
-            return redirect(url_for('download_file', name=out_path))
+            return render_template('download.html', file_path=out_path)
     return render_template(func_name + '.html')
 
 
@@ -84,9 +85,14 @@ def load_home_page():
     return render_template('index.html')
 
 
-@app.route('/uploads/<name>')
-def download_file(name):
-    return send_from_directory(app.config["UPLOAD_FOLDER"], name, as_attachment=True)
+# @app.route('/uploads/<name>')
+# def download_file(name):
+#     return send_from_directory(app.config["UPLOAD_FOLDER"], name, as_attachment=True)
+
+
+@app.route('/download/<file_path>')
+def download(file_path):
+    return send_from_directory(app.config["UPLOAD_FOLDER"], file_path, as_attachment=True)
 
 
 app.add_url_rule(

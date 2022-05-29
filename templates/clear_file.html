@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="eng">
 <head>
-   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
     <!--  {#    <link rel="icon" type="image/png" href="favicon.ico"/>#}-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Clear a MP3 File</title>
@@ -53,7 +53,7 @@
             <i class="fa fa-cloud-upload"></i> Clear
         </label>
         <input id="submit" value=Upload type="submit"
-               onclick="document.getElementById('loader').style.display='block'; document.getElementById('the-form').style.display='none';"
+               onclick="document.getElementById('loader').style.display='block'; document.getElementById('the-form').disabled='disabled';"
                style="display: none">
 
     </form>

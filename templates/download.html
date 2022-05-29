@@ -4,11 +4,9 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
     <!--  {#    <link rel="icon" type="image/png" href="favicon.ico"/>#}-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Decode MP3 to WAV</title>
+    <title>Clear a MP3 File</title>
 </head>
-
 <body>
-
 <div class="right">
     <section>
         <div id="loader" class="loader" style="display: none">
@@ -37,26 +35,11 @@
 
 </div>
 
-<div class="left">
-    <hr style="height:50pt; visibility:hidden;"/>
-
-    <form id="the-form" method=post enctype=multipart/form-data>
-        <label for="mp3-file" class="custom-file-upload learn-more upload">
-            <i class="fa fa-cloud-upload"></i>
-            <p id="upload-wav-file" style="display:inline">Upload MP3 File</p>
-        </label>
-        <input type="file" name=file id="mp3-file" accept=".mp3">
-
-        <hr style="height:75pt; visibility:hidden;"/>
-
-        <label for="submit" class="custom-file-upload learn-more submit">
-            <i class="fa fa-cloud-upload"></i> Decode
-        </label>
-        <input id="submit" value=Upload type="submit"
-               onclick="document.getElementById('loader').style.display='block'; document.getElementById('the-form').disabled='disabled';"
-               style="display: none">
-    </form>
+<div>
+    <label class="learn-more button center">
+        <i class="fa fa-cloud-upload"></i>
+        <a href="{{ url_for('download', file_path=file_path) }}" style="-webkit-text-fill-color:black">Download File</a>
+    </label>
 </div>
-
 </body>
 </html>
