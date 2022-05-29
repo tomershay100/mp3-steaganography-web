@@ -14,7 +14,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 s = Steganography()
 
 Bitrates = [_ for _ in range(64, 480, 32)]
-Bitrates_K = [_ * 1000 for _ in Bitrates]
+
 
 
 def hide_msg(input_file_name, output_file_path, msg):
@@ -30,8 +30,8 @@ def clear_file(input_file_name, output_file_path, _):
 
 
 def wav_to_mp3(input_file_name, output_file_path, bitrate):
-    bitrate = int(bitrate)
-    if (bitrate not in Bitrates) or (bitrate not in Bitrates_K):
+    bitrate = int(bitrate)//1000
+    if bitrate not in Bitrates:
         raise Exception('Bitrate not valid')
     if bitrate in Bitrates_K:
         bitrate //= 1000
