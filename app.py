@@ -86,7 +86,7 @@ def load_home_page():
 
 @app.route('/uploads/<name>')
 def download_file(name):
-    return send_from_directory(app.config["UPLOAD_FOLDER"], name)
+    return send_from_directory(app.config["UPLOAD_FOLDER"], name, as_attachment=True)
 
 
 app.add_url_rule(
