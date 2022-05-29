@@ -79,6 +79,11 @@ def upload_file(func_name):
     return render_template(func_name + '.html')
 
 
+@app.route('/')
+def load_home_page():
+    return render_template('index.html')
+
+
 @app.route('/uploads/<name>')
 def download_file(name):
     return send_from_directory(app.config["UPLOAD_FOLDER"], name)
