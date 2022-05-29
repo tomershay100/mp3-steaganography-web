@@ -45,7 +45,7 @@ funcs = {'hide_msg': (hide_msg, 'output.mp3'), 'reveal_msg': (reveal_msg, 'revea
 def allowed_file(filename, func_name):
     return '.' in filename and \
            (filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS) or (
-               filename.rsplit('.', 1)[1].lower() == ".wav" if func_name == 'wav_to_mp3' else False)
+               filename.rsplit('.', 1)[1].lower() == "wav" if func_name == 'wav_to_mp3' else False)
 
 
 @app.route('/stego/<func_name>', methods=['GET', 'POST'])
