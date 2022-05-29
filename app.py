@@ -13,13 +13,24 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 s = Steganography()
 
 
+def hide_msg(input_file_name, output_file_path, msg):
+    s.hide_message(os.path.join(app.config['UPLOAD_FOLDER'], input_file_name), output_file_path, msg)
+
+
+def reveal_msg(input_file_name, output_file_path, _):
+    s.reveal_massage(os.path.join(app.config['UPLOAD_FOLDER'], input_file_name), output_file_path)
+
+
+funcs = {'hide_msg': (hide_msg, 'output.mp3'), 'reveal_msg': (reveal_msg, 'reveal.txt')}
+
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/', methods=['GET', 'POST'])
-def upload_file():
+@app.route('/<name>', methods=['GET', 'POST'])
+def upload_file(name):
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -35,12 +46,13 @@ def upload_file():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            output_file_path = os.path.join(app.config['UPLOAD_FOLDER'], 'output.mp3')
-            hide_message = request.form.get('message')
-            s.hide_message(os.path.join(app.config['UPLOAD_FOLDER'], filename), output_file_path, hide_message)
+            func, out_path = funcs[name]
+            output_file_path = os.path.join(app.config['UPLOAD_FOLDER'], out_path)
 
-            return redirect(url_for('download_file', name='output.mp3'))
-    return render_template('index.html')
+            func(filename, output_file_path, request.form.get('message'))
+
+            return redirect(url_for('download_file', name=out_path))
+    return render_template(name + '.html')
 
 
 @app.route('/uploads/<name>')
@@ -51,11 +63,6 @@ def download_file(name):
 app.add_url_rule(
     "/uploads/<name>", endpoint="download_file", build_only=True
 )
-
-
-@app.route('/file-downloads/')
-def file_downloads():
-    return render_template('downloads.html')
 
 
 @app.route('/return-files/')
