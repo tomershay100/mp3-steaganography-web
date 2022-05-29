@@ -224,3 +224,26 @@ input[type=text]:focus {
     border: 3px solid #FF69B4FF;
     width: 80%;
 }
+
+input[type=number] {
+    width: 50%;
+    text-align: left;
+    color: white;
+    padding: 12px 20px;
+    font-size: 15px;
+    height: 5vh;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid hotpink;
+    border-radius: inherit;
+    left: 2vh;
+    transition: width 0.4s ease-in-out;
+    background-color: #2B2B2B;
+
+}
+
+input[type=number]:focus {
+    background-color: #2B2B2B;
+    border: 3px solid #FF69B4FF;
+    width: 80%;
+}

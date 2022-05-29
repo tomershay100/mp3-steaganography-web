@@ -1,46 +1,63 @@
 <!doctype html>
 <html lang="eng">
 <head>
-    <style>
-        .loader {
-            border: 16px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 16px solid #3498db;
-            width: 120px;
-            height: 120px;
-            -webkit-animation: spin 2s linear infinite; /* Safari */
-            animation: spin 2s linear infinite;
-        }
-
-        /* Safari */
-        @-webkit-keyframes spin {
-            0% {
-                -webkit-transform: rotate(0deg);
-            }
-            100% {
-                -webkit-transform: rotate(360deg);
-            }
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
-    <title>Reveal Message in MP3</title>
+   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+    <!--  {#    <link rel="icon" type="image/png" href="favicon.ico"/>#}-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clear a MP3 File</title>
 </head>
-<h1>Clear a MP3 File</h1>
+<h1>Clear an MP3 File</h1>
 <body>
-<form id="the-form" method=post enctype=multipart/form-data>
-    <input type=file name=file>
-    <input type=submit value=Upload
-           onclick="document.getElementById('loader').style.display='block'; document.getElementById('the-form').style.display='none';">
-</form>
+<div class="right">
+    <section>
+        <div id="loader" class="loader" style="display: none">
+            <span style="--i:1;"></span>
+            <span style="--i:2;"></span>
+            <span style="--i:3;"></span>
+            <span style="--i:4;"></span>
+            <span style="--i:5;"></span>
+            <span style="--i:6;"></span>
+            <span style="--i:7;"></span>
+            <span style="--i:8;"></span>
+            <span style="--i:9;"></span>
+            <span style="--i:10;"></span>
+            <span style="--i:11;"></span>
+            <span style="--i:12;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:14;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:16;"></span>
+            <span style="--i:17;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:20;"></span>
+        </div>
+    </section>
 
-<div id="loader" class="loader" style="display: none"></div>
+</div>
+
+<div class="left">
+    <hr style="height:50pt; visibility:hidden;"/>
+
+    <form id="the-form" method=post enctype=multipart/form-data>
+        <label for="mp3-file" class="custom-file-upload learn-more upload">
+            <i class="fa fa-cloud-upload"></i>
+            <p id="upload-mp3-file" style="display:inline">Upload MP3 File</p>
+        </label>
+        <input type="file" name=file id="mp3-file" accept=".mp3">
+
+        <hr style="height:75pt; visibility:hidden;"/>
+
+        <hr style="height:75pt; visibility:hidden;"/>
+
+        <label for="submit" class="custom-file-upload learn-more submit">
+            <i class="fa fa-cloud-upload"></i> Clear
+        </label>
+        <input id="submit" value=Upload type="submit"
+               onclick="document.getElementById('loader').style.display='block'; document.getElementById('the-form').style.display='none';"
+               style="display: none">
+
+    </form>
+</div>
 </body>
 </html>
