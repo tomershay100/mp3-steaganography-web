@@ -12,7 +12,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 s = Steganography()
 
-ERR_TEMPLATE_BEFORE_ERR = f'<!DOCTYPE html><html><body><p>Error:'
+ERR_TEMPLATE_BEFORE_ERR = f'<!DOCTYPE html><html><body><p>Error: '
 ERR_TEMPLATE_AFTER_ERR = '</p></body></html>'
 
 
@@ -30,12 +30,17 @@ def clear_file(input_file_name, output_file_path, _):
 
 def wav_to_mp3(input_file_name, output_file_path, bitrate):
     bitrate = int(bitrate)
-    bitrate = bitrate if bitrate % 1000 < 64000 else bitrate // 1000
+    bitrate = bitrate if bitrate < 1000 else bitrate // 1000
     s.encode_wav_to_mp3(os.path.join(app.config['UPLOAD_FOLDER'], input_file_name), output_file_path, bitrate)
 
 
+def mp3_to_wav(input_file_name, output_file_path, _):
+    s.decode_mp3_to_wav(os.path.join(app.config['UPLOAD_FOLDER'], input_file_name), output_file_path)
+
+
 funcs = {'hide_msg': (hide_msg, 'output.mp3'), 'reveal_msg': (reveal_msg, 'reveal.txt'),
-         'clear_file': (clear_file, 'cleared_file.mp3'), 'wav_to_mp3': (wav_to_mp3, 'output.mp3')}
+         'clear_file': (clear_file, 'cleared_file.mp3'), 'wav_to_mp3': (wav_to_mp3, 'output.mp3'),
+         'mp3_to_wav': (mp3_to_wav, 'output.wav')}
 
 
 def allowed_file(filename, func_name):
