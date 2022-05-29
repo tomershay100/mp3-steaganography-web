@@ -224,3 +224,54 @@ input[type=text]:focus {
     border: 3px solid #FF69B4FF;
     width: 80%;
 }
+
+input[type=number] {
+    width: 50%;
+    text-align: left;
+    color: white;
+    padding: 12px 20px;
+    font-size: 15px;
+    height: 5vh;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid hotpink;
+    border-radius: inherit;
+    left: 2vh;
+    transition: width 0.4s ease-in-out;
+    background-color: #2B2B2B;
+
+}
+
+input[type=number]:focus {
+    background-color: #2B2B2B;
+    border: 3px solid #FF69B4FF;
+    width: 80%;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 12px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: unset;
+    vertical-align: middle;
+    height: 20vh;
+    font-size: 50px;
+}
+
+.left-40 {
+    width: 90%;
+    left: 4vh;
+}
+
+.container3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* fraction*/
+}
+
+.container2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* fraction*/
+}

@@ -2,16 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MP3 STEGO</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+    <!--  {#    <link rel="icon" type="image/png" href="favicon.ico"/>#}-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MP3 STEGANOGRAPHY WEB-APP</title>
 </head>
 <body>
+<hr style="height:100pt; visibility:hidden;"/>
 
-<button onclick="location.href='stego/mp3_to_wav'">Convert MP3 to WAV</button>
-<button onclick="location.href='stego/wav_to_mp3'">Convert WAV to MP3</button>
-<p></p>
-<button onclick="location.href='stego/hide_msg'">Hide Message</button>
-<button onclick="location.href='stego/reveal_msg'">Reveal Message from an MP3 file</button>
-<button onclick="location.href='stego/clear_file'">Clear a MP3 File</button>
+<div class="container2" style="width: 100%;">
+    <div>
+        <label for="mp3-to-wav" class="learn-more button left-40">
+            <i class="fa fa-cloud-upload"></i>
+            <p style="display:inline">Convert MP3 to WAV</p>
+        </label>
+        <button id="mp3-to-wav" onclick="location.href='stego/mp3_to_wav'" style="display: none"></button>
+    </div>
+    <div>
+        <label for="wav-to-mp3" class="learn-more button left-40">
+            <i class="fa fa-cloud-upload"></i>
+            <p style="display:inline">Convert WAV to MP3</p>
+        </label>
+        <button id="wav-to-mp3" onclick="location.href='stego/wav_to_mp3'" style="display: none"></button>
+    </div>
+</div>
+<hr style="height:75pt; visibility:hidden;"/>
+
+<div class="container3" style="width: 100%;">
+    <div>
+        <label for="hide-msg" class="learn-more button left-40">
+            <i class="fa fa-cloud-upload"></i>
+            <p style="display:inline">Hide Message</p>
+        </label>
+        <button id="hide-msg" onclick="location.href='stego/hide_msg'" style="display: none"></button>
+
+    </div>
+    <div>
+        <label for="reveal-msg" class="learn-more button left-40">
+            <i class="fa fa-cloud-upload"></i>
+            <p style="display:inline">Reveal Message from MP3 file</p>
+        </label>
+        <button id="reveal-msg" onclick="location.href='stego/reveal_msg'" style="display: none"></button>
+
+    </div>
+    <div>
+        <label for="clear-mp3" class="learn-more button left-40">
+            <i class="fa fa-cloud-upload"></i>
+            <p style="display:inline">Clear a MP3 File</p>
+        </label>
+        <button id="clear-mp3" onclick="location.href='stego/clear_file'" style="display: none"></button>
+
+    </div>
+</div>
 
 </body>
 </html>
