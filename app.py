@@ -12,8 +12,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 s = Steganography()
 
-Bitrates = [_ for _ in range(64, 480, 32)]
-
+ERR_TEMPLATE_BEFORE_ERR = f'<!DOCTYPE html><html><body><p>Error:'
+ERR_TEMPLATE_AFTER_ERR = '</p></body></html>'
 
 
 def hide_msg(input_file_name, output_file_path, msg):
@@ -29,11 +29,8 @@ def clear_file(input_file_name, output_file_path, _):
 
 
 def wav_to_mp3(input_file_name, output_file_path, bitrate):
-    bitrate = int(bitrate)//1000
-    if bitrate not in Bitrates:
-        raise Exception('Bitrate not valid')
-
-
+    bitrate = int(bitrate)
+    bitrate = bitrate if bitrate % 1000 < 64000 else bitrate // 1000
     s.encode_wav_to_mp3(os.path.join(app.config['UPLOAD_FOLDER'], input_file_name), output_file_path, bitrate)
 
 
@@ -67,8 +64,11 @@ def upload_file(func_name):
             func, out_path = funcs[func_name]
             output_file_path = os.path.join(app.config['UPLOAD_FOLDER'], out_path)
 
-            func(filename, output_file_path,
-                 request.form.get('message') if func_name == 'hide_msg' else request.form.get('bitrate'))
+            try:
+                func(filename, output_file_path,
+                     request.form.get('message') if func_name == 'hide_msg' else request.form.get('bitrate'))
+            except BaseException as err:
+                return ERR_TEMPLATE_BEFORE_ERR + str(err) + ERR_TEMPLATE_AFTER_ERR
 
             return redirect(url_for('download_file', name=out_path))
     return render_template(func_name + '.html')
