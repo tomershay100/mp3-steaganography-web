@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, url_for, flash, redirect, render_template, send_file, send_from_directory
+from flask import Flask, request, url_for, flash, redirect, render_template, send_from_directory
 from mp3stego import Steganography
 from werkzeug.utils import secure_filename
 
@@ -40,7 +40,7 @@ def upload_file():
             s.hide_message(os.path.join(app.config['UPLOAD_FOLDER'], filename), output_file_path, hide_message)
 
             return redirect(url_for('download_file', name='output.mp3'))
-    return render_template('index.html')
+    return render_template('hide_message.html')
 
 
 @app.route('/uploads/<name>')
@@ -53,15 +53,21 @@ app.add_url_rule(
 )
 
 
-@app.route('/file-downloads/')
-def file_downloads():
-    return render_template('downloads.html')
+#
+# @app.route('/file-downloads/')
+# def file_downloads():
+#     return render_template('downloads.html')
+#
+#
+# @app.route('/return-files/')
+# def return_files_tut():
+#     return send_file(os.path.join(app.config['UPLOADED_PATH'], '../output/output.mp3'),
+#                      attachment_filename='hidden.mp3')
+#
 
-
-@app.route('/return-files/')
-def return_files_tut():
-    return send_file(os.path.join(app.config['UPLOADED_PATH'], '../output/output.mp3'),
-                     attachment_filename='hidden.mp3')
+@app.route('/style.css')
+def style():
+    return render_template('static/style.css')
 
 
 if __name__ == '__main__':
