@@ -32,8 +32,7 @@ def wav_to_mp3(input_file_name, output_file_path, bitrate):
     bitrate = int(bitrate)//1000
     if bitrate not in Bitrates:
         raise Exception('Bitrate not valid')
-    if bitrate in Bitrates_K:
-        bitrate //= 1000
+
 
     s.encode_wav_to_mp3(os.path.join(app.config['UPLOAD_FOLDER'], input_file_name), output_file_path, bitrate)
 
