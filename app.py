@@ -1,6 +1,5 @@
 import os
 
-import werkzeug.exceptions
 from flask import Flask, request, url_for, flash, redirect, render_template, send_from_directory
 from mp3stego import Steganography
 from werkzeug.utils import secure_filename
@@ -87,6 +86,12 @@ app.add_url_rule(
 app.add_url_rule(
     "/stego/<name>", endpoint="upload_file", build_only=True
 )
+
+
+@app.route('/style.css')
+def style():
+    return render_template('static/style.css')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
