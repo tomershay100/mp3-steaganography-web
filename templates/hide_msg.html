@@ -32,7 +32,13 @@
             <span style="--i:20;"></span>
         </div>
     </section>
-
+    <div style="display: {{ "block" if display_download else "none" }}">
+        <label class="custom-file-upload learn-more download">
+            <i class="fa fa-cloud-upload"></i>
+            <a href="{{ url_for('download', file_path=file_path) }}" style="-webkit-text-fill-color:black">Download
+                File</a>
+        </label>
+    </div>
 </div>
 
 <div class="left">

@@ -78,8 +78,8 @@ def upload_file(func_name):
             except BaseException as err:
                 return ERR_TEMPLATE_BEFORE_ERR + str(err) + ERR_TEMPLATE_AFTER_ERR
 
-            return render_template('download.html', file_path=out_path)
-    return render_template(func_name + '.html')
+            return render_template(func_name + '.html', file_path=out_path, display_download=True)
+    return render_template(func_name + '.html', file_path="", display_download=False)
 
 
 @app.route('/')
