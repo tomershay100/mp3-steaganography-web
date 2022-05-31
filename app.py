@@ -1,7 +1,6 @@
 import os
 
-import flask
-from flask import Flask, request, url_for, flash, redirect, render_template, send_from_directory
+from flask import Flask, request, flash, redirect, render_template, send_from_directory
 from mp3stego import Steganography
 from werkzeug.utils import secure_filename
 
@@ -30,7 +29,10 @@ def clear_file(input_file_name, output_file_path, _):
 
 
 def wav_to_mp3(input_file_name, output_file_path, bitrate):
-    bitrate = int(bitrate)
+    try:
+        bitrate = int(bitrate)
+    except:
+        bitrate = 320
     bitrate = bitrate if bitrate < 1000 else bitrate // 1000
     s.encode_wav_to_mp3(os.path.join(app.config['UPLOAD_FOLDER'], input_file_name), output_file_path, bitrate)
 
