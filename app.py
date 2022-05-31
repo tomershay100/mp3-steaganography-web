@@ -87,11 +87,6 @@ def load_home_page():
     return render_template('index.html')
 
 
-# @app.route('/uploads/<name>')
-# def download_file(name):
-#     return send_from_directory(app.config["UPLOAD_FOLDER"], name, as_attachment=True)
-
-
 @app.route('/download/<file_path>')
 def download(file_path):
     return send_from_directory(app.config["UPLOAD_FOLDER"], file_path, as_attachment=True)
@@ -105,9 +100,24 @@ app.add_url_rule(
 )
 
 
+@app.errorhandler(404)
+def not_found(e):
+    return error_page(title="ERROR 404 - Page Not Found", error_description=e)
+
+
+@app.route('/error?title=<title>&description=<error_description>')
+def error_page(title, error_description):
+    return render_template("error.html", title=title, error_description=error_description)
+
+
 @app.route('/style.css')
 def style():
-    return render_template('static/style.css')
+    return render_template('../static/style.css')
+
+
+@app.route('/error.css')
+def error():
+    return render_template('../static/error.css')
 
 
 if __name__ == '__main__':
