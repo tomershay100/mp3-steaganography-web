@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask, request, flash, redirect, render_template, send_from_directory
+from jinja2 import TemplateNotFound
 from mp3stego import Steganography
 from werkzeug.utils import secure_filename
 
@@ -63,8 +64,9 @@ def upload_file(func_name):
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
+            # flash('No selected file')
+            return error_page(title='FILE UPLOAD ERROR',
+                              error_description='You must upload file for using the website functions')
         if file and allowed_file(file.filename, func_name):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -76,10 +78,13 @@ def upload_file(func_name):
                 func(filename, output_file_path,
                      request.form.get('message') if func_name == 'hide_msg' else request.form.get('bitrate'))
             except BaseException as err:
-                return ERR_TEMPLATE_BEFORE_ERR + str(err) + ERR_TEMPLATE_AFTER_ERR
+                return error_page(title='ERROR ON SERVER', error_description=str(err))
 
             return render_template(func_name + '.html', file_path=out_path, display_download=True)
-    return render_template(func_name + '.html', file_path="", display_download=False)
+    try:
+        return render_template(func_name + '.html', file_path="", display_download=False)
+    except TemplateNotFound as err:
+        return not_found(f'Page {str(err)} not found on server')
 
 
 @app.route('/')
@@ -105,7 +110,7 @@ def not_found(e):
     return error_page(title="ERROR 404 - Page Not Found", error_description=e)
 
 
-@app.route('/error?title=<title>&description=<error_description>')
+# @app.route('/error?title=<title>&description=<error_description>')
 def error_page(title, error_description):
     return render_template("error.html", title=title, error_description=error_description)
 
