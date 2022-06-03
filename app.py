@@ -104,7 +104,7 @@ def load_home_page():
     return render_template('index.html')
 
 
-@app.route('/download/<file_path>')
+@app.route('/download/<file_path>', methods=['GET'])
 def download(file_path):
     return send_from_directory(app.config["UPLOAD_FOLDER"], file_path, as_attachment=True)
 
