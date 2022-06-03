@@ -36,22 +36,21 @@
                 <div class="navbar-inner">
                     <a class="brand" href="#home">MP3 Steganography Library</a>
                     <ul class="nav" id="myTab">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#tab1">MP3 to WAV</a></li>
-                        <li><a href="#tab2">WAV to MP3</a></li>
-                        <li><a href="#tab3">Hide Message</a></li>
-                        <li><a href="#tab4">Reveal Message</a>
+                        <li class={{ "active" if curr_tab == 0 }}><a id="home-tab" href="#home">Home</a></li>
+                        <li class={{ "active" if curr_tab == 1 }}><a id="decode-tab" href="#tab1">MP3 to WAV</a></li>
+                        <li class={{ "active" if curr_tab == 2 }}><a id="encode-tab" href="#tab2">WAV to MP3</a></li>
+                        <li class={{ "active" if curr_tab == 3 }}><a id="hide-tab" href="#tab3">Hide Message</a></li>
+                        <li class={{ "active" if curr_tab == 4 }}><a id="reveal-tab" href="#tab4">Reveal Message</a>
                         </li>
-                        <li><a href="#tab5">Clear MP3 file</a></li>
-                        <li><a href="#tab6">Python Library</a></li>
-                        <li><a href="#tab7">About</a></li>
-
+                        <li class={{ "active" if curr_tab == 5 }}><a id="clear-tab" href="#tab5">Clear MP3 file</a></li>
+                        <li class={{ "active" if curr_tab == 6 }}><a id="lib-tab" href="#tab6">Python Library</a></li>
+                        <li class={{ "active" if curr_tab == 7 }}><a id="about-tab" href="#tab7">About</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="tab-content">
-                <div class="tab-pane fade active in" id="home">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 0 }}" id="home">
                     <div class="row">
                         <div class="span7">
                             <H2>The mp3stego-lib page</H2>
@@ -106,7 +105,7 @@
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="tab1">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 1 }}" id="tab1">
                     <H2>Convert MP3 file To WAV file</H2>
                     <P>
                         Using our library, you can decode MP3 file into WAV file. Just import the library and use the
@@ -144,7 +143,7 @@
                                 <input type="file" name=file id="mp3-decode-file" accept=".mp3" style="display: none">
 
                                 <br>
-                                <p class="text-error">There was an error with...</p>
+                                <p class="text-error">{{ text_error }}</p>
                             </div>
 
                             <div class="span3">
@@ -176,7 +175,7 @@
 
                 </div>
 
-                <div class="tab-pane fade " id="tab2">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 2 }}" id="tab2">
                     <H2>Convert WAV file To MP3 file</H2>
                     <P>
                         Using our library, you can encode WAV file into MP3 file. Just import the library and use the
@@ -209,7 +208,7 @@
 
                 </div>
 
-                <div class="tab-pane fade " id="tab3">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 3 }}" id="tab3">
                     <H2>Hiding String in MP3 file</H2>
                     <P>
                         Using our library, you can hide string (steganography) in MP3 file. Just import the library and
@@ -246,7 +245,7 @@
 
                 </div>
 
-                <div class="tab-pane fade " id="tab4">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 4 }}" id="tab4">
                     <H2>Reveal String from MP3 file</H2>
                     <P>
                         Using our library, you can reveal hidden string from MP3 file. Just import the library and
@@ -273,7 +272,7 @@
                     <br>
                 </div>
 
-                <div class="tab-pane fade " id="tab5">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 5 }}" id="tab5">
                     <H2>Clearing String from MP3 file</H2>
                     <P>
                         Using our library, you can clear MP3 file from any string (that has been inserted by our
@@ -300,7 +299,7 @@
                     <br>
                 </div>
 
-                <div class="tab-pane fade " id="tab6">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 6 }}" id="tab6">
                     <h3 id="project-structure">Project Structure</h3>
                     <p>The library is contains several packages and several classes built as follows:</p>
                     <ol>
@@ -460,7 +459,7 @@ stego = Steganography(quiet=<span class="hljs-literal">True</span>)</code></pre>
 
                 </div>
 
-                <div class="tab-pane fade " id="tab7">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 7 }}" id="tab7">
                     <H2>About</H2>
 
                     <p><a href="https://app.travis-ci.com/github/tomershay100/mp3-steganography-lib"><img
@@ -501,6 +500,7 @@ stego = Steganography(quiet=<span class="hljs-literal">True</span>)</code></pre>
     $('#myTab a').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
+        window.location = "/reset/" + this.id;
     })
     if (window.location.hash) {
         $('#myTab a[href="' + window.location.hash + '"]').tab('show');
