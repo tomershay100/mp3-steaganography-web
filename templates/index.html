@@ -143,37 +143,36 @@
                                 </label>
                                 <input type="file" name=file id="mp3-decode-file" accept=".mp3" style="display: none">
 
+                                <br>
+                                <p class="text-error">There was an error with...</p>
                             </div>
 
                             <div class="span3">
-
                                 <label for="decode" class="button-4">
                                     Decode
                                 </label>
                                 <input type="submit" id="decode" value=decode name="submit"
                                        onclick="document.getElementById('loader-decode').style.display='block'; document.getElementById('mp3-to-wav-form').disabled='disabled';"
                                        style="display: none">
-                                <br>
-
                             </div>
                         </form>
-                        <div class="span4" style="margin-top: 10px;">
+                        <div class="span3">
+
                             <form id="download-decode-form" method=get
                                   action="{{ url_for('download', file_path=file_path) }}"
                                   enctype=multipart/form-data>
                                 <label for="download-decode" class="button-4"
-                                       style="display: {{ none if not display_download else "block" }}">
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
                                     Download
                                 </label>
                                 <input type="submit" id="download-decode" style="display: none">
                             </form>
                             <div id="loader-decode" class="loader" style="display: none"></div>
+
                         </div>
+
                     </div>
 
-                    <div>
-                        <p class="text-error">There was an error with...</p>
-                    </div>
 
                 </div>
 
