@@ -2,7 +2,7 @@
 <html lang="eng">
 <head>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
-    <!--  {#    <link rel="icon" type="image/png" href="favicon.ico"/>#}-->
+    <link rel="icon" type="image/png" href="{{ url_for('static',filename='favicon.ico') }}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Encode WAV to MP3</title>
 </head>
@@ -34,7 +34,13 @@
             <span style="--i:20;"></span>
         </div>
     </section>
-
+    <div style="display: {{ "block" if display_download else "none" }}">
+        <label class="custom-file-upload learn-more download">
+            <i class="fa fa-cloud-upload"></i>
+            <a href="{{ url_for('download', file_path=file_path) }}" style="-webkit-text-fill-color:black">Download
+                File</a>
+        </label>
+    </div>
 </div>
 
 <div class="left">
@@ -59,7 +65,7 @@
             <i class="fa fa-cloud-upload"></i> Encode
         </label>
         <input id="submit" value=Upload type="submit"
-               onclick="document.getElementById('loader').style.display='block'; document.getElementById('the-form').style.display='none';"
+               onclick="document.getElementById('loader').style.display='block'; document.getElementById('the-form').disabled='disabled';"
                style="display: none">
     </form>
 </div>

@@ -202,6 +202,19 @@ input[type="file"] {
     right: 2vh;
 }
 
+.download {
+    width: 25vh;
+    height: 5vh;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 30px;
+    font-weight: unset;
+    position: absolute;
+    left: 50%;
+    bottom: 50%
+}
+
 input[type=text] {
     width: 50%;
     text-align: left;
