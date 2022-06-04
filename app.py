@@ -52,7 +52,7 @@ def hide_msg(input_file_name, msg):
 
 
 def reveal_msg(input_file_name, _):
-    output_file_path = get_path_with_rnd('reveal.mp3')
+    output_file_path = get_path_with_rnd('reveal.txt')
     s.reveal_massage(get_full_path(input_file_name), get_full_path(output_file_path))
     return output_file_path
 
