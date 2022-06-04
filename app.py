@@ -32,7 +32,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 s = Steganography()
 
-already_downloaded_files = []
+already_used_files = []
 
 
 def get_path_with_rnd(file_name: str):
@@ -90,9 +90,8 @@ funcs = {
 
 
 def allowed_file(filename, func_name):
-    return '.' in filename and \
-           (filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS) or (
-               filename.rsplit('.', 1)[1].lower() == "wav" if func_name == 'encode' else False)
+    return '.' in filename and (filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS) or (
+        filename.rsplit('.', 1)[1].lower() == "wav" if func_name == 'encode' else False)
 
 
 def upload_file(func_name):
@@ -108,7 +107,7 @@ def upload_file(func_name):
                                text_error='FILE UPLOAD ERROR - You must upload file for using the website functions')
     if file and allowed_file(file.filename, func_name):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        file.save(get_full_path(filename))
 
         func = funcs[func_name]
 
@@ -118,7 +117,7 @@ def upload_file(func_name):
         except BaseException as err:
             return render_template('index.html', curr_tab=FUNC_NAME_TO_TAB_NUM[func_name],
                                    text_error='ERROR ON SERVER - ' + str(err))
-
+        already_used_files.append(get_full_path(filename))
         return render_template('index.html', file_path=file_name, display_download=True, curr_tab=0)
 
     return render_template('index.html', curr_tab=FUNC_NAME_TO_TAB_NUM[func_name],
@@ -139,21 +138,21 @@ def load_home_page():
 
 @app.route('/download/<file_path>', methods=['GET'])
 def download(file_path):
-    already_downloaded_files.append(file_path)
+    already_used_files.append(get_full_path(file_path))
     return send_from_directory(app.config["UPLOAD_FOLDER"], file_path, as_attachment=True)
 
 
-def delete_all_downloaded_files():
-    current_downloaded_files = already_downloaded_files.copy()
-    for file in current_downloaded_files:
+def delete_all_used_files():
+    current_used_files = already_used_files.copy()
+    for file in current_used_files:
         if os.path.exists(file):
             os.remove(file)
-            already_downloaded_files.remove(file)
+            already_used_files.remove(file)
 
 
 @app.route('/reset/<tab_name>')
 def reset(tab_name):
-    delete_all_downloaded_files()
+    delete_all_used_files()
     tab_num = TAB_ID_TO_TAB_NUM[tab_name]
     return redirect(f'/#tab{tab_num}')
 
