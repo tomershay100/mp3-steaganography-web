@@ -34,24 +34,23 @@
 
             <div class="navbar" style="margin-top: 30px;">
                 <div class="navbar-inner">
-                    <a class="brand" href="#home">MP3 Steganography Library</a>
+                    <a class="brand">MP3 Steganography Library</a>
                     <ul class="nav" id="myTab">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#tab1">MP3 to WAV</a></li>
-                        <li><a href="#tab2">WAV to MP3</a></li>
-                        <li><a href="#tab3">Hide Message</a></li>
-                        <li><a href="#tab4">Reveal Message</a>
+                        <li class={{ "active" if curr_tab == 0 }}><a id="home-tab" href="#home">Home</a></li>
+                        <li class={{ "active" if curr_tab == 1 }}><a id="decode-tab" href="#tab1">MP3 to WAV</a></li>
+                        <li class={{ "active" if curr_tab == 2 }}><a id="encode-tab" href="#tab2">WAV to MP3</a></li>
+                        <li class={{ "active" if curr_tab == 3 }}><a id="hide-tab" href="#tab3">Hide Message</a></li>
+                        <li class={{ "active" if curr_tab == 4 }}><a id="reveal-tab" href="#tab4">Reveal Message</a>
                         </li>
-                        <li><a href="#tab5">Clear MP3 file</a></li>
-                        <li><a href="#tab6">Python Library</a></li>
-                        <li><a href="#tab7">About</a></li>
-
+                        <li class={{ "active" if curr_tab == 5 }}><a id="clear-tab" href="#tab5">Clear MP3 file</a></li>
+                        <li class={{ "active" if curr_tab == 6 }}><a id="lib-tab" href="#tab6">Python Library</a></li>
+                        <li class={{ "active" if curr_tab == 7 }}><a id="about-tab" href="#tab7">About</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="tab-content">
-                <div class="tab-pane fade active in" id="home">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 0 }}" id="home">
                     <div class="row">
                         <div class="span7">
                             <H2>The mp3stego-lib page</H2>
@@ -106,7 +105,7 @@
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="tab1">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 1 }}" id="tab1">
                     <H2>Convert MP3 file To WAV file</H2>
                     <P>
                         Using our library, you can decode MP3 file into WAV file. Just import the library and use the
@@ -133,14 +132,45 @@
                         Decode button:
                     </p>
                     <br>
+                    <div class="row">
 
-                    <div>
-                        <p class="text-error">There was an error with...</p>
+                        <form id="mp3-to-wav-form" method=post
+                              enctype=multipart/form-data>
+                            <div class="span4">
+                                <label for="mp3-decode-file" class="button-4">
+                                    Upload MP3 File
+                                </label>
+                                <input type="file" name=file id="mp3-decode-file" accept=".mp3" style="display: none">
+                            </div>
+                            <div class="span3">
+                                <label for="decode" class="button-4">
+                                    Decode
+                                </label>
+                                <input type="submit" id="decode" value=decode name="submit"
+                                       onclick="document.getElementById('loader-decode').style.display='block'; document.getElementById('mp3-to-wav-form').disabled='disabled';"
+                                       style="display: none">
+                            </div>
+                        </form>
+                        <div class="span3">
+                            <form id="download-decode-form" method=get
+                                  action="{{ url_for('download', file_path=file_path) }}"
+                                  enctype=multipart/form-data>
+                                <label for="download-decode" class="button-4"
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
+                                    Download
+                                </label>
+                                <input type="submit" id="download-decode" style="display: none">
+                            </form>
+                            <div id="loader-decode" class="loader" style="display: none"></div>
+                        </div>
+                        <div class="span7" style="margin-left: 0">
+                            <br>
+                            <p class="text-error">{{ text_error }}</p>
+                        </div>
                     </div>
-
                 </div>
 
-                <div class="tab-pane fade " id="tab2">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 2 }}" id="tab2">
                     <H2>Convert WAV file To MP3 file</H2>
                     <P>
                         Using our library, you can encode WAV file into MP3 file. Just import the library and use the
@@ -169,11 +199,49 @@
                         here and clicking the Encode button:
                     </p>
                     <br>
+                    <div class="row">
 
+                        <form id="wav-to-mp3-form" method=post
+                              enctype=multipart/form-data>
+                            <div class="span4">
+                                <label for="mp3-encode-file" class="button-4">
+                                    Upload WAV File
+                                </label>
+                                <input type="file" name=file id="mp3-encode-file" accept=".wav" style="display: none">
+                                <label for="bitrate-input"></label>
+                                <input class="input-text" id="bitrate-input" type="number"
+                                       placeholder="Bitrate (default=320)" name="bitrate">
+                            </div>
 
+                            <div class="span3">
+                                <label for="encode" class="button-4">
+                                    Encode
+                                </label>
+                                <input type="submit" id="encode" value=encode name="submit"
+                                       onclick="document.getElementById('loader-encode').style.display='block'; document.getElementById('wav-to-mp3-form').disabled='disabled';"
+                                       style="display: none">
+                            </div>
+                        </form>
+                        <div class="span3">
+                            <form id="download-encode-form" method=get
+                                  action="{{ url_for('download', file_path=file_path) }}"
+                                  enctype=multipart/form-data>
+                                <label for="download-encode" class="button-4"
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
+                                    Download
+                                </label>
+                                <input type="submit" id="download-encode" style="display: none">
+                            </form>
+                            <div id="loader-encode" class="loader" style="display: none"></div>
+                        </div>
+                    </div>
+                    <div class="span7" style="margin-left: 0">
+                        <br>
+                        <p class="text-error">{{ text_error }}</p>
+                    </div>
                 </div>
 
-                <div class="tab-pane fade " id="tab3">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 3 }}" id="tab3">
                     <H2>Hiding String in MP3 file</H2>
                     <P>
                         Using our library, you can hide string (steganography) in MP3 file. Just import the library and
@@ -207,10 +275,50 @@
                         the string) here and clicking the Hide button:
                     </p>
                     <br>
+                    <div class="row">
+
+                        <form id="hide-form" method=post
+                              enctype=multipart/form-data>
+                            <div class="span4">
+                                <label for="hide-file" class="button-4">
+                                    Upload MP3 File
+                                </label>
+                                <input type="file" name=file id="hide-file" accept=".mp3" style="display: none">
+                                <label for="string-input"></label>
+                                <input class="input-text" id="string-input" type="text"
+                                       placeholder="String to hide in the file" name="message">
+                            </div>
+                            <div class="span3">
+                                <label for="hide" class="button-4">
+                                    Hide
+                                </label>
+                                <input type="submit" id="hide" value=hide name="submit"
+                                       onclick="document.getElementById('loader-hide').style.display='block'; document.getElementById('hide-form').disabled='disabled';"
+                                       style="display: none">
+                            </div>
+                        </form>
+                        <div class="span3">
+
+                            <form id="download-hide-form" method=get
+                                  action="{{ url_for('download', file_path=file_path) }}"
+                                  enctype=multipart/form-data>
+                                <label for="download-hide" class="button-4"
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
+                                    Download
+                                </label>
+                                <input type="submit" id="download-hide" style="display: none">
+                            </form>
+                            <div id="loader-hide" class="loader" style="display: none"></div>
+                        </div>
+                    </div>
+                    <div class="span7" style="margin-left: 0">
+                        <br>
+                        <p class="text-error">{{ text_error }}</p>
+                    </div>
 
                 </div>
 
-                <div class="tab-pane fade " id="tab4">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 4 }}" id="tab4">
                     <H2>Reveal String from MP3 file</H2>
                     <P>
                         Using our library, you can reveal hidden string from MP3 file. Just import the library and
@@ -235,9 +343,45 @@
                         here and clicking the Reveal button:
                     </p>
                     <br>
+                    <div class="row">
+
+                        <form id="reveal-form" method=post
+                              enctype=multipart/form-data>
+                            <div class="span4">
+                                <label for="reveal-file" class="button-4">
+                                    Upload MP3 File
+                                </label>
+                                <input type="file" name=file id="reveal-file" accept=".mp3" style="display: none">
+                            </div>
+                            <div class="span3">
+                                <label for="reveal" class="button-4">
+                                    Reveal
+                                </label>
+                                <input type="submit" id="reveal" value=reveal name="submit"
+                                       onclick="document.getElementById('loader-reveal').style.display='block'; document.getElementById('reveal-form').disabled='disabled';"
+                                       style="display: none">
+                            </div>
+                        </form>
+                        <div class="span3">
+                            <form id="download-reveal-form" method=get
+                                  action="{{ url_for('download', file_path=file_path) }}"
+                                  enctype=multipart/form-data>
+                                <label for="download-reveal" class="button-4"
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
+                                    Download
+                                </label>
+                                <input type="submit" id="download-reveal" style="display: none">
+                            </form>
+                            <div id="loader-reveal" class="loader" style="display: none"></div>
+                        </div>
+                        <div class="span7" style="margin-left: 0">
+                            <br>
+                            <p class="text-error">{{ text_error }}</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="tab-pane fade " id="tab5">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 5 }}" id="tab5">
                     <H2>Clearing String from MP3 file</H2>
                     <P>
                         Using our library, you can clear MP3 file from any string (that has been inserted by our
@@ -262,9 +406,45 @@
                         Clear button:
                     </p>
                     <br>
+                    <div class="row">
+
+                        <form id="clear-form" method=post
+                              enctype=multipart/form-data>
+                            <div class="span4">
+                                <label for="clear-file" class="button-4">
+                                    Upload MP3 File
+                                </label>
+                                <input type="file" name=file id="clear-file" accept=".mp3" style="display: none">
+                            </div>
+                            <div class="span3">
+                                <label for="clear" class="button-4">
+                                    Clear
+                                </label>
+                                <input type="submit" id="clear" value=clear name="submit"
+                                       onclick="document.getElementById('loader-clear').style.display='block'; document.getElementById('clear-form').disabled='disabled';"
+                                       style="display: none">
+                            </div>
+                        </form>
+                        <div class="span3">
+                            <form id="download-clear-form" method=get
+                                  action="{{ url_for('download', file_path=file_path) }}"
+                                  enctype=multipart/form-data>
+                                <label for="download-clear" class="button-4"
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
+                                    Download
+                                </label>
+                                <input type="submit" id="download-clear" style="display: none">
+                            </form>
+                            <div id="loader-clear" class="loader" style="display: none"></div>
+                        </div>
+                        <div class="span7" style="margin-left: 0">
+                            <br>
+                            <p class="text-error">{{ text_error }}</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="tab-pane fade " id="tab6">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 6 }}" id="tab6">
                     <h3 id="project-structure">Project Structure</h3>
                     <p>The library is contains several packages and several classes built as follows:</p>
                     <ol>
@@ -424,7 +604,7 @@ stego = Steganography(quiet=<span class="hljs-literal">True</span>)</code></pre>
 
                 </div>
 
-                <div class="tab-pane fade " id="tab7">
+                <div class="tab-pane fade {{ "active in" if curr_tab == 7 }}" id="tab7">
                     <H2>About</H2>
 
                     <p><a href="https://app.travis-ci.com/github/tomershay100/mp3-steganography-lib"><img
@@ -465,6 +645,7 @@ stego = Steganography(quiet=<span class="hljs-literal">True</span>)</code></pre>
     $('#myTab a').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
+        window.location = "/reset/" + this.id;
     })
     if (window.location.hash) {
         $('#myTab a[href="' + window.location.hash + '"]').tab('show');
