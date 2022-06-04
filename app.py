@@ -65,7 +65,7 @@ funcs = {'hide': (hide_msg, 'output.mp3'), 'reveal': (reveal_msg, 'reveal.txt'),
 def allowed_file(filename, func_name):
     return '.' in filename and \
            (filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS) or (
-               filename.rsplit('.', 1)[1].lower() == "wav" if func_name == 'decode' else False)
+               filename.rsplit('.', 1)[1].lower() == "wav" if func_name == 'encode' else False)
 
 
 def upload_file(func_name):
