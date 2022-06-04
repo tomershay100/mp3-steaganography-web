@@ -147,7 +147,7 @@
                                     Decode
                                 </label>
                                 <input type="submit" id="decode" value=decode name="submit"
-                                       onclick="document.getElementById('loader-decode').style.display='block'; document.getElementById('mp3-to-wav-form').disabled='disabled';"
+                                       onclick="document.getElementById('loader-decode').style.display='block'; document.getElementById('mp3-to-wav-form').disabled='disabled'; document.getElementById('label-download-decode').style.display='none';"
                                        style="display: none">
                             </div>
                         </form>
@@ -155,7 +155,7 @@
                             <form id="download-decode-form" method=get
                                   action="{{ url_for('download', file_path=file_path) }}"
                                   enctype=multipart/form-data>
-                                <label for="download-decode" class="button-4"
+                                <label id="label-download-decode" for="download-decode" class="button-4"
                                        style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
                                     Download
                                 </label>
@@ -218,7 +218,7 @@
                                     Encode
                                 </label>
                                 <input type="submit" id="encode" value=encode name="submit"
-                                       onclick="document.getElementById('loader-encode').style.display='block'; document.getElementById('wav-to-mp3-form').disabled='disabled';"
+                                       onclick="document.getElementById('loader-encode').style.display='block'; document.getElementById('wav-to-mp3-form').disabled='disabled'; document.getElementById('label-download-encode').style.display='none';"
                                        style="display: none">
                             </div>
                         </form>
@@ -226,7 +226,7 @@
                             <form id="download-encode-form" method=get
                                   action="{{ url_for('download', file_path=file_path) }}"
                                   enctype=multipart/form-data>
-                                <label for="download-encode" class="button-4"
+                                <label id="label-download-encode" for="download-encode" class="button-4"
                                        style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
                                     Download
                                 </label>
@@ -293,7 +293,7 @@
                                     Hide
                                 </label>
                                 <input type="submit" id="hide" value=hide name="submit"
-                                       onclick="document.getElementById('loader-hide').style.display='block'; document.getElementById('hide-form').disabled='disabled';"
+                                       onclick="document.getElementById('loader-hide').style.display='block'; document.getElementById('hide-form').disabled='disabled'; document.getElementById('label-download-hide').style.display='none';"
                                        style="display: none">
                             </div>
                         </form>
@@ -302,7 +302,7 @@
                             <form id="download-hide-form" method=get
                                   action="{{ url_for('download', file_path=file_path) }}"
                                   enctype=multipart/form-data>
-                                <label for="download-hide" class="button-4"
+                                <label id="label-download-hide" for="download-hide" class="button-4"
                                        style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
                                     Download
                                 </label>
@@ -358,7 +358,7 @@
                                     Reveal
                                 </label>
                                 <input type="submit" id="reveal" value=reveal name="submit"
-                                       onclick="document.getElementById('loader-reveal').style.display='block'; document.getElementById('reveal-form').disabled='disabled';"
+                                       onclick="document.getElementById('loader-reveal').style.display='block'; document.getElementById('reveal-form').disabled='disabled'; document.getElementById('label-download-reveal').style.display='none';"
                                        style="display: none">
                             </div>
                         </form>
@@ -366,7 +366,7 @@
                             <form id="download-reveal-form" method=get
                                   action="{{ url_for('download', file_path=file_path) }}"
                                   enctype=multipart/form-data>
-                                <label for="download-reveal" class="button-4"
+                                <label id="label-download-reveal" for="download-reveal" class="button-4"
                                        style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
                                     Download
                                 </label>
@@ -421,7 +421,7 @@
                                     Clear
                                 </label>
                                 <input type="submit" id="clear" value=clear name="submit"
-                                       onclick="document.getElementById('loader-clear').style.display='block'; document.getElementById('clear-form').disabled='disabled';"
+                                       onclick="document.getElementById('loader-clear').style.display='block'; document.getElementById('clear-form').disabled='disabled'; document.getElementById('label-download-clear').style.display='none';"
                                        style="display: none">
                             </div>
                         </form>
@@ -429,7 +429,7 @@
                             <form id="download-clear-form" method=get
                                   action="{{ url_for('download', file_path=file_path) }}"
                                   enctype=multipart/form-data>
-                                <label for="download-clear" class="button-4"
+                                <label id="label-download-clear" for="download-clear" class="button-4"
                                        style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
                                     Download
                                 </label>
