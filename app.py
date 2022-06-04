@@ -7,14 +7,6 @@ from werkzeug.utils import secure_filename
 UPLOAD_FOLDER = os.path.abspath(os.getcwd() + '/uploads')
 ALLOWED_EXTENSIONS = {'mp3'}
 
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-s = Steganography()
-
-ERR_TEMPLATE_BEFORE_ERR = f'<!DOCTYPE html><html><body><p>Error: '
-ERR_TEMPLATE_AFTER_ERR = '</p></body></html>'
-
 FUNC_NAME_TO_TAB_NUM = {
     'decode': 1,
     'encode': 2,
@@ -33,6 +25,11 @@ TAB_ID_TO_TAB_NUM = {
     'lib-tab': 6,
     'about-tab': 7,
 }
+
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+s = Steganography()
 
 
 def hide_msg(input_file_name, output_file_path, msg):
@@ -68,7 +65,7 @@ funcs = {'hide': (hide_msg, 'output.mp3'), 'reveal': (reveal_msg, 'reveal.txt'),
 def allowed_file(filename, func_name):
     return '.' in filename and \
            (filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS) or (
-               filename.rsplit('.', 1)[1].lower() == "wav" if func_name == 'wav_to_mp3' else False)
+               filename.rsplit('.', 1)[1].lower() == "wav" if func_name == 'decode' else False)
 
 
 def upload_file(func_name):

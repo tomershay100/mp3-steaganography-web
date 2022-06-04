@@ -34,7 +34,7 @@
 
             <div class="navbar" style="margin-top: 30px;">
                 <div class="navbar-inner">
-                    <a class="brand" href="#home">MP3 Steganography Library</a>
+                    <a class="brand">MP3 Steganography Library</a>
                     <ul class="nav" id="myTab">
                         <li class={{ "active" if curr_tab == 0 }}><a id="home-tab" href="#home">Home</a></li>
                         <li class={{ "active" if curr_tab == 1 }}><a id="decode-tab" href="#tab1">MP3 to WAV</a></li>
@@ -141,11 +141,7 @@
                                     Upload MP3 File
                                 </label>
                                 <input type="file" name=file id="mp3-decode-file" accept=".mp3" style="display: none">
-
-                                <br>
-                                <p class="text-error">{{ text_error }}</p>
                             </div>
-
                             <div class="span3">
                                 <label for="decode" class="button-4">
                                     Decode
@@ -156,7 +152,6 @@
                             </div>
                         </form>
                         <div class="span3">
-
                             <form id="download-decode-form" method=get
                                   action="{{ url_for('download', file_path=file_path) }}"
                                   enctype=multipart/form-data>
@@ -167,12 +162,12 @@
                                 <input type="submit" id="download-decode" style="display: none">
                             </form>
                             <div id="loader-decode" class="loader" style="display: none"></div>
-
                         </div>
-
+                        <div class="span7" style="margin-left: 0">
+                            <br>
+                            <p class="text-error">{{ text_error }}</p>
+                        </div>
                     </div>
-
-
                 </div>
 
                 <div class="tab-pane fade {{ "active in" if curr_tab == 2 }}" id="tab2">
@@ -204,8 +199,46 @@
                         here and clicking the Encode button:
                     </p>
                     <br>
+                    <div class="row">
 
+                        <form id="wav-to-mp3-form" method=post
+                              enctype=multipart/form-data>
+                            <div class="span4">
+                                <label for="mp3-encode-file" class="button-4">
+                                    Upload WAV File
+                                </label>
+                                <input type="file" name=file id="mp3-encode-file" accept=".wav" style="display: none">
+                                <label for="bitrate-input"></label>
+                                <input class="input-text" id="bitrate-input" type="number"
+                                       placeholder="Bitrate (default=320)" name="bitrate">
+                            </div>
 
+                            <div class="span3">
+                                <label for="encode" class="button-4">
+                                    Encode
+                                </label>
+                                <input type="submit" id="encode" value=encode name="submit"
+                                       onclick="document.getElementById('loader-encode').style.display='block'; document.getElementById('wav-to-mp3-form').disabled='disabled';"
+                                       style="display: none">
+                            </div>
+                        </form>
+                        <div class="span3">
+                            <form id="download-encode-form" method=get
+                                  action="{{ url_for('download', file_path=file_path) }}"
+                                  enctype=multipart/form-data>
+                                <label for="download-encode" class="button-4"
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
+                                    Download
+                                </label>
+                                <input type="submit" id="download-encode" style="display: none">
+                            </form>
+                            <div id="loader-encode" class="loader" style="display: none"></div>
+                        </div>
+                    </div>
+                    <div class="span7" style="margin-left: 0">
+                        <br>
+                        <p class="text-error">{{ text_error }}</p>
+                    </div>
                 </div>
 
                 <div class="tab-pane fade {{ "active in" if curr_tab == 3 }}" id="tab3">
@@ -242,6 +275,46 @@
                         the string) here and clicking the Hide button:
                     </p>
                     <br>
+                    <div class="row">
+
+                        <form id="hide-form" method=post
+                              enctype=multipart/form-data>
+                            <div class="span4">
+                                <label for="hide-file" class="button-4">
+                                    Upload MP3 File
+                                </label>
+                                <input type="file" name=file id="hide-file" accept=".mp3" style="display: none">
+                                <label for="string-input"></label>
+                                <input class="input-text" id="string-input" type="text"
+                                       placeholder="String to hide in the file" name="message">
+                            </div>
+                            <div class="span3">
+                                <label for="hide" class="button-4">
+                                    Hide
+                                </label>
+                                <input type="submit" id="hide" value=hide name="submit"
+                                       onclick="document.getElementById('loader-hide').style.display='block'; document.getElementById('hide-form').disabled='disabled';"
+                                       style="display: none">
+                            </div>
+                        </form>
+                        <div class="span3">
+
+                            <form id="download-hide-form" method=get
+                                  action="{{ url_for('download', file_path=file_path) }}"
+                                  enctype=multipart/form-data>
+                                <label for="download-hide" class="button-4"
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
+                                    Download
+                                </label>
+                                <input type="submit" id="download-hide" style="display: none">
+                            </form>
+                            <div id="loader-hide" class="loader" style="display: none"></div>
+                        </div>
+                    </div>
+                    <div class="span7" style="margin-left: 0">
+                        <br>
+                        <p class="text-error">{{ text_error }}</p>
+                    </div>
 
                 </div>
 
@@ -270,6 +343,42 @@
                         here and clicking the Reveal button:
                     </p>
                     <br>
+                    <div class="row">
+
+                        <form id="reveal-form" method=post
+                              enctype=multipart/form-data>
+                            <div class="span4">
+                                <label for="reveal-file" class="button-4">
+                                    Upload MP3 File
+                                </label>
+                                <input type="file" name=file id="reveal-file" accept=".mp3" style="display: none">
+                            </div>
+                            <div class="span3">
+                                <label for="reveal" class="button-4">
+                                    Reveal
+                                </label>
+                                <input type="submit" id="reveal" value=reveal name="submit"
+                                       onclick="document.getElementById('loader-reveal').style.display='block'; document.getElementById('reveal-form').disabled='disabled';"
+                                       style="display: none">
+                            </div>
+                        </form>
+                        <div class="span3">
+                            <form id="download-reveal-form" method=get
+                                  action="{{ url_for('download', file_path=file_path) }}"
+                                  enctype=multipart/form-data>
+                                <label for="download-reveal" class="button-4"
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
+                                    Download
+                                </label>
+                                <input type="submit" id="download-reveal" style="display: none">
+                            </form>
+                            <div id="loader-reveal" class="loader" style="display: none"></div>
+                        </div>
+                        <div class="span7" style="margin-left: 0">
+                            <br>
+                            <p class="text-error">{{ text_error }}</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tab-pane fade {{ "active in" if curr_tab == 5 }}" id="tab5">
@@ -297,6 +406,42 @@
                         Clear button:
                     </p>
                     <br>
+                    <div class="row">
+
+                        <form id="clear-form" method=post
+                              enctype=multipart/form-data>
+                            <div class="span4">
+                                <label for="clear-file" class="button-4">
+                                    Upload MP3 File
+                                </label>
+                                <input type="file" name=file id="clear-file" accept=".mp3" style="display: none">
+                            </div>
+                            <div class="span3">
+                                <label for="clear" class="button-4">
+                                    Clear
+                                </label>
+                                <input type="submit" id="clear" value=clear name="submit"
+                                       onclick="document.getElementById('loader-clear').style.display='block'; document.getElementById('clear-form').disabled='disabled';"
+                                       style="display: none">
+                            </div>
+                        </form>
+                        <div class="span3">
+                            <form id="download-clear-form" method=get
+                                  action="{{ url_for('download', file_path=file_path) }}"
+                                  enctype=multipart/form-data>
+                                <label for="download-clear" class="button-4"
+                                       style="display: {{ none if not display_download else "inline-block" }}; top: 0;">
+                                    Download
+                                </label>
+                                <input type="submit" id="download-clear" style="display: none">
+                            </form>
+                            <div id="loader-clear" class="loader" style="display: none"></div>
+                        </div>
+                        <div class="span7" style="margin-left: 0">
+                            <br>
+                            <p class="text-error">{{ text_error }}</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tab-pane fade {{ "active in" if curr_tab == 6 }}" id="tab6">
