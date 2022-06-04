@@ -1,4 +1,5 @@
 import os
+import time
 
 from flask import Flask, request, flash, redirect, render_template, send_from_directory
 from mp3stego import Steganography
@@ -34,34 +35,58 @@ s = Steganography()
 already_downloaded_files = []
 
 
-def hide_msg(input_file_name, output_file_path, msg):
-    s.hide_message(os.path.join(app.config['UPLOAD_FOLDER'], input_file_name), output_file_path, msg)
+def get_path_with_rnd(file_name: str):
+    dot_index = file_name.rfind('.')
+    file_name = file_name[:dot_index] + '_' + str(hex(int(time.time()))[2:]) + file_name[dot_index:]
+    return file_name
 
 
-def reveal_msg(input_file_name, output_file_path, _):
-    s.reveal_massage(os.path.join(app.config['UPLOAD_FOLDER'], input_file_name), output_file_path)
+def get_full_path(file_name: str):
+    return os.path.join(app.config['UPLOAD_FOLDER'], file_name)
 
 
-def clear_file(input_file_name, output_file_path, _):
-    s.clear_file(os.path.join(app.config['UPLOAD_FOLDER'], input_file_name), output_file_path)
+def hide_msg(input_file_name, msg):
+    output_file_path = get_path_with_rnd('output.mp3')
+    s.hide_message(get_full_path(input_file_name), get_full_path(output_file_path), msg)
+    return output_file_path
 
 
-def wav_to_mp3(input_file_name, output_file_path, bitrate):
+def reveal_msg(input_file_name, _):
+    output_file_path = get_path_with_rnd('reveal.mp3')
+    s.reveal_massage(get_full_path(input_file_name), get_full_path(output_file_path))
+    return output_file_path
+
+
+def clear_file(input_file_name, _):
+    output_file_path = get_path_with_rnd('cleared_file.mp3')
+    s.clear_file(get_full_path(input_file_name), get_full_path(output_file_path))
+    return output_file_path
+
+
+def wav_to_mp3(input_file_name, bitrate):
+    output_file_path = get_path_with_rnd('output.mp3')
     try:
         bitrate = int(bitrate)
     except:
         bitrate = 320
     bitrate = bitrate if bitrate < 1000 else bitrate // 1000
-    s.encode_wav_to_mp3(os.path.join(app.config['UPLOAD_FOLDER'], input_file_name), output_file_path, bitrate)
+    s.encode_wav_to_mp3(get_full_path(input_file_name), get_full_path(output_file_path), bitrate)
+    return output_file_path
 
 
-def mp3_to_wav(input_file_name, output_file_path, _):
-    s.decode_mp3_to_wav(os.path.join(app.config['UPLOAD_FOLDER'], input_file_name), output_file_path)
+def mp3_to_wav(input_file_name, _):
+    output_file_path = get_path_with_rnd('output.wav')
+    s.decode_mp3_to_wav(get_full_path(input_file_name), get_full_path(output_file_path))
+    return output_file_path
 
 
-funcs = {'hide': (hide_msg, 'output.mp3'), 'reveal': (reveal_msg, 'reveal.txt'),
-         'clear': (clear_file, 'cleared_file.mp3'), 'encode': (wav_to_mp3, 'output.mp3'),
-         'decode': (mp3_to_wav, 'output.wav')}
+funcs = {
+    'hide': hide_msg,
+    'reveal': reveal_msg,
+    'clear': clear_file,
+    'encode': wav_to_mp3,
+    'decode': mp3_to_wav
+}
 
 
 def allowed_file(filename, func_name):
@@ -85,17 +110,16 @@ def upload_file(func_name):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        func, out_path = funcs[func_name]
-        output_file_path = os.path.join(app.config['UPLOAD_FOLDER'], out_path)
+        func = funcs[func_name]
 
         try:
-            func(filename, output_file_path,
-                 request.form.get('message') if func_name == 'hide' else request.form.get('bitrate'))
+            file_name = func(filename,
+                             request.form.get('message') if func_name == 'hide' else request.form.get('bitrate'))
         except BaseException as err:
             return render_template('index.html', curr_tab=FUNC_NAME_TO_TAB_NUM[func_name],
                                    text_error='ERROR ON SERVER - ' + str(err))
 
-        return render_template('index.html', file_path=out_path, display_download=True, curr_tab=0)
+        return render_template('index.html', file_path=file_name, display_download=True, curr_tab=0)
 
     return render_template('index.html', curr_tab=FUNC_NAME_TO_TAB_NUM[func_name],
                            text_error='FILE DOESN\'T MATCH - You must upload file that matches the instrustion for '
@@ -125,8 +149,6 @@ def delete_all_downloaded_files():
         if os.path.exists(file):
             os.remove(file)
             already_downloaded_files.remove(file)
-
-
 
 
 @app.route('/reset/<tab_name>')
