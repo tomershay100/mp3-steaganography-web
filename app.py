@@ -31,6 +31,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 s = Steganography()
 
+already_downloaded_files = []
+
 
 def hide_msg(input_file_name, output_file_path, msg):
     s.hide_message(os.path.join(app.config['UPLOAD_FOLDER'], input_file_name), output_file_path, msg)
@@ -113,11 +115,23 @@ def load_home_page():
 
 @app.route('/download/<file_path>', methods=['GET'])
 def download(file_path):
+    already_downloaded_files.append(file_path)
     return send_from_directory(app.config["UPLOAD_FOLDER"], file_path, as_attachment=True)
+
+
+def delete_all_downloaded_files():
+    current_downloaded_files = already_downloaded_files.copy()
+    for file in current_downloaded_files:
+        if os.path.exists(file):
+            os.remove(file)
+            already_downloaded_files.remove(file)
+
+
 
 
 @app.route('/reset/<tab_name>')
 def reset(tab_name):
+    delete_all_downloaded_files()
     tab_num = TAB_ID_TO_TAB_NUM[tab_name]
     return redirect(f'/#tab{tab_num}')
 
