@@ -47,20 +47,20 @@ def get_full_path(file_name: str):
 
 def hide_msg(input_file_name, msg):
     output_file_path = get_path_with_rnd('output.mp3')
-    s.hide_message(get_full_path(input_file_name), get_full_path(output_file_path), msg)
-    return output_file_path
+    too_short = s.hide_message(get_full_path(input_file_name), get_full_path(output_file_path), msg)
+    return output_file_path, True
 
 
 def reveal_msg(input_file_name, _):
     output_file_path = get_path_with_rnd('reveal.txt')
     s.reveal_massage(get_full_path(input_file_name), get_full_path(output_file_path))
-    return output_file_path
+    return output_file_path, None
 
 
 def clear_file(input_file_name, _):
     output_file_path = get_path_with_rnd('cleared_file.mp3')
     s.clear_file(get_full_path(input_file_name), get_full_path(output_file_path))
-    return output_file_path
+    return output_file_path, None
 
 
 def wav_to_mp3(input_file_name, bitrate):
@@ -71,13 +71,13 @@ def wav_to_mp3(input_file_name, bitrate):
         bitrate = 320
     bitrate = bitrate if bitrate < 1000 else bitrate // 1000
     s.encode_wav_to_mp3(get_full_path(input_file_name), get_full_path(output_file_path), bitrate)
-    return output_file_path
+    return output_file_path, None
 
 
 def mp3_to_wav(input_file_name, _):
     output_file_path = get_path_with_rnd('output.wav')
     s.decode_mp3_to_wav(get_full_path(input_file_name), get_full_path(output_file_path))
-    return output_file_path
+    return output_file_path, None
 
 
 funcs = {
@@ -111,14 +111,19 @@ def upload_file(func_name):
 
         func = funcs[func_name]
 
+        warning_txt = ''
         try:
-            file_name = func(filename,
-                             request.form.get('message') if func_name == 'hide' else request.form.get('bitrate'))
+            file_name, too_short = func(filename,
+                                        request.form.get('message') if func_name == 'hide' else request.form.get(
+                                            'bitrate'))
+            if func_name == 'hide' and too_short:
+                warning_txt = 'Note: your message is too short for this MP3 file, it has been cut'
+
         except BaseException as err:
             return render_template('index.html', curr_tab=FUNC_NAME_TO_TAB_NUM[func_name],
                                    text_error='ERROR ON SERVER - ' + str(err))
         already_used_files.append(get_full_path(filename))
-        return render_template('index.html', file_path=file_name, display_download=True, curr_tab=0)
+        return render_template('index.html', file_path=file_name, display_download=True, text_error=warning_txt)
 
     return render_template('index.html', curr_tab=FUNC_NAME_TO_TAB_NUM[func_name],
                            text_error='FILE DOESN\'T MATCH - You must upload file that matches the instrustion for '
