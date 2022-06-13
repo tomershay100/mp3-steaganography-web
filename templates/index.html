@@ -140,7 +140,7 @@
                                 <label for="mp3-decode-file" class="button-4">
                                     Upload MP3 File
                                 </label>
-                                <input type="file" name=file id="mp3-decode-file" accept=".mp3" style="display: none">
+                                <input type="file" name=file-mp3 id="mp3-decode-file" accept=".mp3" style="display: none">
                             </div>
                             <div class="span3">
                                 <label for="decode" class="button-4">
@@ -207,7 +207,7 @@
                                 <label for="mp3-encode-file" class="button-4">
                                     Upload WAV File
                                 </label>
-                                <input type="file" name=file id="mp3-encode-file" accept=".wav" style="display: none">
+                                <input type="file" name=file-mp3 id="mp3-encode-file" accept=".wav" style="display: none">
                                 <label for="bitrate-input"></label>
                                 <input class="input-text" id="bitrate-input" type="number"
                                        placeholder="Bitrate (default=320)" name="bitrate">
@@ -283,10 +283,16 @@
                                 <label for="hide-file" class="button-4">
                                     Upload MP3 File
                                 </label>
-                                <input type="file" name=file id="hide-file" accept=".mp3" style="display: none">
-                                <label for="string-input"></label>
-                                <input class="input-text" id="string-input" type="text"
-                                       placeholder="String to hide in the file" name="message">
+                                <input type="file" name=file-mp3 id="hide-file" accept=".mp3" style="display: none">
+
+                                <label for="upload-txt-file" class="button-4">
+                                    Upload TXT File
+                                </label>
+                                <input type="file" name=file-txt id="upload-txt-file" accept=".txt" style="display: none">
+
+{#                                <label for="string-input"></label>#}
+{#                                <input class="input-text" id="string-input" type="text"#}
+{#                                       placeholder="String to hide in the file" name="message">#}
                             </div>
                             <div class="span3">
                                 <label for="hide" class="button-4">
@@ -351,7 +357,7 @@
                                 <label for="reveal-file" class="button-4">
                                     Upload MP3 File
                                 </label>
-                                <input type="file" name=file id="reveal-file" accept=".mp3" style="display: none">
+                                <input type="file" name=file-mp3 id="reveal-file" accept=".mp3" style="display: none">
                             </div>
                             <div class="span3">
                                 <label for="reveal" class="button-4">
@@ -414,7 +420,7 @@
                                 <label for="clear-file" class="button-4">
                                     Upload MP3 File
                                 </label>
-                                <input type="file" name=file id="clear-file" accept=".mp3" style="display: none">
+                                <input type="file" name=file-mp3 id="clear-file" accept=".mp3" style="display: none">
                             </div>
                             <div class="span3">
                                 <label for="clear" class="button-4">

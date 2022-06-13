@@ -47,8 +47,8 @@ def get_full_path(file_name: str):
 
 def hide_msg(input_file_name, msg):
     output_file_path = get_path_with_rnd('output.mp3')
-    too_short = s.hide_message(get_full_path(input_file_name), get_full_path(output_file_path), msg)
-    return output_file_path, True
+    too_long = s.hide_message(get_full_path(input_file_name), get_full_path(output_file_path), msg)
+    return output_file_path, too_long
 
 
 def reveal_msg(input_file_name, _):
@@ -96,10 +96,10 @@ def allowed_file(filename, func_name):
 
 def upload_file(func_name):
     # check if the post request has the file part
-    if 'file' not in request.files:
+    if 'file-mp3' not in request.files:
         flash('No file part')
         return redirect(f'/#tab{FUNC_NAME_TO_TAB_NUM[func_name]}')
-    file = request.files['file']
+    file = request.files['file-mp3']
     # If the user does not select a file, the browser submits an
     # empty file without a filename.
     if file.filename == '':
@@ -113,11 +113,31 @@ def upload_file(func_name):
 
         warning_txt = ''
         try:
-            file_name, too_short = func(filename,
-                                        request.form.get('message') if func_name == 'hide' else request.form.get(
-                                            'bitrate'))
-            if func_name == 'hide' and too_short:
-                warning_txt = 'Note: your message is too short for this MP3 file, it has been cut'
+            message = ''
+            if func_name == 'hide':
+                if 'file-txt' not in request.files:
+                    flash('No file part')
+                    return redirect(f'/#tab{FUNC_NAME_TO_TAB_NUM[func_name]}')
+                txt_file = request.files['file-txt']
+                if txt_file.filename == '':
+                    return render_template('index.html', curr_tab=FUNC_NAME_TO_TAB_NUM[func_name],
+                                           text_error='FILE UPLOAD ERROR - You must upload TXT file for using the '
+                                                      'hiding function')
+                if '.' in txt_file.filename and (txt_file.filename.rsplit('.', 1)[1].lower() == 'txt'):
+                    pass
+                else:
+                    return render_template('index.html', curr_tab=FUNC_NAME_TO_TAB_NUM[func_name],
+                                           text_error='FILE DOESN\'T MATCH - You must upload TXT file for using the '
+                                                      'hiding function')
+                txt_filename = secure_filename(txt_file.filename)
+                txt_file.save(get_full_path(txt_filename))
+
+                with open(get_full_path(txt_filename)) as f:
+                    message = f.read()
+
+            file_name, too_long = func(filename, message if func_name == 'hide' else request.form.get('bitrate'))
+            if func_name == 'hide' and too_long:
+                warning_txt = 'Note: your message is too long for this MP3 file, it has been cut'
 
         except BaseException as err:
             return render_template('index.html', curr_tab=FUNC_NAME_TO_TAB_NUM[func_name],
@@ -126,7 +146,7 @@ def upload_file(func_name):
         return render_template('index.html', file_path=file_name, display_download=True, text_error=warning_txt)
 
     return render_template('index.html', curr_tab=FUNC_NAME_TO_TAB_NUM[func_name],
-                           text_error='FILE DOESN\'T MATCH - You must upload file that matches the instrustion for '
+                           text_error='FILE DOESN\'T MATCH - You must upload file that matches the instruction for '
                                       'using the website functions')
 
 
