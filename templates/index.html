@@ -58,7 +58,7 @@
                                 The mp3stego-lib is a python3 library for steganography in MP3 files.
                             </p>
                             <p>
-                                This python library allows the user to hide strings inside MP3 files, extract the hidden
+                                This python library allows a user to hide strings inside MP3 files, extract the hidden
                                 strings from MP3 file, clean a MP3 file from hidden strings in it and generally allows
                                 to convert MP3 files to WAV (decoding process) files and vice versa (encoding process).
                             </p>
@@ -66,24 +66,23 @@
                                 Project Description
                             </h3>
                             <p>
-                                The steganography process uses and modifies huffman tables as presented in the research
+                                The steganography process uses and modifies the selection of the optimal (that requires
+                                the minimal amount of bits to code the data) Huffman tables as presented in the research
                                 article &quot;<em>High capacity reversible data hiding in MP3 based on Huffman table
                                 transformation</em>&quot; (which can be found <a
                                     href="https://www.aimspress.com/fileOther/PDF/MBE/mbe-16-04-158.pdf">here</a>).
-                                Quite simply, the idea is to be able to hide bits by changing the huffman tables. Each
-                                frame in the <code>MP3</code> file uses several huffman tables (one per granule, channel
-                                and region - a total of 8-12 tables).
+                                Quite simply, the idea is to be able to hide bits by changing the selection of the used
+                                Huffman table indexes. Each frame in the <code>MP3</code> file uses several Huffman
+                                tables (one per granule, channel and region - a total of 8-12 tables).
                             </p>
                             <p>
-                                Unofficially, they found pairs of tables, according to their similarities and determined
-                                that each would be for the bit 0 or the bit 1. For the sake of demonstration let us
-                                assume that the huffman table x and the huffman y table are a pair, and that x is for
-                                the bit 0 and y for the bit 1. Now to hide a bit, given that the huffman table x has
-                                been used, it must be replaced with the huffman table y if the bit is 1 or to keep the
-                                huffman table x if the bit is 0. An inverted case will happen for original use of table
-                                y. Thus, all 30 huffman tables that use (out of 32) <code>MP3</code> files, are divided
-                                into pairs and each time you see a huffman table z - replace it with the huffman table
-                                that matches the next bit you want to hide.
+                                For the steganography we ordered the tables as pairs according to their similarities
+                                (from the article), and determined that each table represent the bit 0 or 1. For the
+                                sake of demonstration let us assume that the Huffman table x and the Huffman table y are
+                                a pair, and that x represents the bit 0 and y represents bit 1. To hide a bit, given
+                                that the Huffman table x has been selected as the optimal table, it is replaced with the
+                                Huffman table y if the bit is 1, otherwise the table x is selected. An inverted case
+                                will happen for original use of table y.
                             </p>
 
                         </div>
@@ -108,7 +107,7 @@
                 <div class="tab-pane fade {{ "active in" if curr_tab == 1 }}" id="tab1">
                     <H2>Convert MP3 file To WAV file</H2>
                     <P>
-                        Using our library, you can decode MP3 file into WAV file. Just import the library and use the
+                        Using our library, you can decode a MP3 file into WAV file. Import the library and use the
                         Steganography class as follows:
                     </P>
 
@@ -128,7 +127,7 @@
                     <br>
                     <br>
                     <p>
-                        You can also use our server for decoding MP3 files by uploading MP3 file here and clicking the
+                        You can also use our server for decoding MP3 files by uploading a MP3 file here and clicking the
                         Decode button:
                     </p>
                     <br>
@@ -140,7 +139,8 @@
                                 <label for="mp3-decode-file" class="button-4">
                                     Upload MP3 File
                                 </label>
-                                <input type="file" name=file-mp3 id="mp3-decode-file" accept=".mp3" style="display: none">
+                                <input type="file" name=file-mp3 id="mp3-decode-file" accept=".mp3"
+                                       style="display: none">
                             </div>
                             <div class="span3">
                                 <label for="decode" class="button-4">
@@ -173,7 +173,7 @@
                 <div class="tab-pane fade {{ "active in" if curr_tab == 2 }}" id="tab2">
                     <H2>Convert WAV file To MP3 file</H2>
                     <P>
-                        Using our library, you can encode WAV file into MP3 file. Just import the library and use the
+                        Using our library, you can encode a WAV file into MP3 file. Import the library and use the
                         Steganography class as follows:
                     </P>
 
@@ -195,7 +195,7 @@
                     <br>
                     <br>
                     <p>
-                        You can also use our server for encoding MP3 files by uploading WAV file (and specify bitrate)
+                        You can also use our server for encoding a MP3 files by uploading WAV file (and specify bitrate)
                         here and clicking the Encode button:
                     </p>
                     <br>
@@ -207,7 +207,8 @@
                                 <label for="mp3-encode-file" class="button-4">
                                     Upload WAV File
                                 </label>
-                                <input type="file" name=file-mp3 id="mp3-encode-file" accept=".wav" style="display: none">
+                                <input type="file" name=file-mp3 id="mp3-encode-file" accept=".wav"
+                                       style="display: none">
                                 <label for="bitrate-input"></label>
                                 <input class="input-text" id="bitrate-input" type="number"
                                        placeholder="Bitrate (default=320)" name="bitrate">
@@ -244,7 +245,7 @@
                 <div class="tab-pane fade {{ "active in" if curr_tab == 3 }}" id="tab3">
                     <H2>Hiding String in MP3 file</H2>
                     <P>
-                        Using our library, you can hide string (steganography) in MP3 file. Just import the library and
+                        Using our library, you can hide a string (steganography) in MP3 file. Import the library and
                         use the Steganography class as follows:
                     </P>
 
@@ -271,7 +272,7 @@
                     <br>
                     <br>
                     <p>
-                        You can also use our server for hiding strings in MP3 files by uploading MP3 file (and specify
+                        You can also use our server for hiding strings in MP3 files by uploading a MP3 file (and specify
                         the string) here and clicking the Hide button:
                     </p>
                     <br>
@@ -288,11 +289,12 @@
                                 <label for="upload-txt-file" class="button-4">
                                     Upload TXT File
                                 </label>
-                                <input type="file" name=file-txt id="upload-txt-file" accept=".txt" style="display: none">
+                                <input type="file" name=file-txt id="upload-txt-file" accept=".txt"
+                                       style="display: none">
 
-{#                                <label for="string-input"></label>#}
-{#                                <input class="input-text" id="string-input" type="text"#}
-{#                                       placeholder="String to hide in the file" name="message">#}
+                                {#                                <label for="string-input"></label>#}
+                                {#                                <input class="input-text" id="string-input" type="text"#}
+                                {#                                       placeholder="String to hide in the file" name="message">#}
                             </div>
                             <div class="span3">
                                 <label for="hide" class="button-4">
@@ -327,7 +329,7 @@
                 <div class="tab-pane fade {{ "active in" if curr_tab == 4 }}" id="tab4">
                     <H2>Reveal String from MP3 file</H2>
                     <P>
-                        Using our library, you can reveal hidden string from MP3 file. Just import the library and
+                        Using our library, you can reveal hidden string from a MP3 file. Import the library and
                         use the Steganography class as follows:
                     </P>
 
@@ -390,8 +392,8 @@
                 <div class="tab-pane fade {{ "active in" if curr_tab == 5 }}" id="tab5">
                     <H2>Clearing String from MP3 file</H2>
                     <P>
-                        Using our library, you can clear MP3 file from any string (that has been inserted by our
-                        library). Just import the library and use the Steganography class as follows:
+                        Using our library, you can clear a MP3 file from any string (that has been inserted by our
+                        library). Import the library and use the Steganography class as follows:
                     </P>
 
 
@@ -452,7 +454,7 @@
 
                 <div class="tab-pane fade {{ "active in" if curr_tab == 6 }}" id="tab6">
                     <h3 id="project-structure">Project Structure</h3>
-                    <p>The library is contains several packages and several classes built as follows:</p>
+                    <p>The library contains several packages and several classes built as follows:</p>
                     <ol>
                         <li><code>decoder</code> package:
                             <ul>
@@ -460,24 +462,23 @@
                                     frame that been decoded.
                                 </li>
                                 <li><strong>FrameHeader class:</strong> contains all the information about the current
-                                    <code>MP3</code> frame header that been decoded.
+                                    <code>MP3</code> frame header that is decoded.
                                 </li>
                                 <li><strong>FrameSideInformation class:</strong> contains all the information about the
                                     current <code>MP3</code> frame side-information that
-                                    been decoded.
+                                    is decoded.
                                 </li>
-                                <li><strong>MP3Parser class:</strong> performs the actual decoding process while going
-                                    through all the frames of the file.
+                                <li><strong>MP3Parser class:</strong> performs the decoding process while parsing the
+                                    frames of the file.
                                 </li>
                                 <li><strong>ID3Parser class:</strong> performs the decoding process on the <code>METADATA</code>
                                     of the ``MP3``` file.
                                 </li>
-                                <li><strong>tables file:</strong> contains all the tables that been used in the decoding
+                                <li><strong>tables file:</strong> contains all the tables that are used in the decoding
                                     process.
                                 </li>
                                 <li><strong>util file:</strong> contains all the different functions and dataclasses
-                                    that other classes use frequently like
-                                    mathematical calculations and bit conversions.
+                                    that other classes use frequently like mathematical calculations and bit operations.
                                 </li>
                                 <li><strong>Decoder class:</strong> consolidates the <code>MP3</code> decoding process.
                                     Receives paths to files and takes
@@ -489,18 +490,19 @@
                         <li><code>encoder</code> package:
                             <ul>
                                 <li><strong>WAVReader class:</strong> contains all the information about the
-                                    <code>WAV</code> file that been encoded.
+                                    <code>WAV</code> file that is encoded.
                                 </li>
-                                <li><strong>MP3Encoder class:</strong> performs the actual encoding process.</li>
-                                <li><strong>ID3Parser class:</strong> performs the decoding process on the <code>METADATA</code>
-                                    of the ``MP3``` file.
+                                <li><strong>MP3Encoder class:</strong> performs the encoding process.</li>
+                                <li><strong>ID3Parser class:</strong> performs the decoding process of the ``MP3```
+                                    file's <code>METADATA</code>.
+                                    .
                                 </li>
-                                <li><strong>tables file:</strong> contains all the tables that been used in the encoding
+                                <li><strong>tables file:</strong> contains all the tables that are used in the encoding
                                     process.
                                 </li>
                                 <li><strong>util file:</strong> contains all the different functions and dataclasses
                                     that other classes use frequently like
-                                    mathematical calculations and bit conversions.
+                                    mathematical calculations and bit operations.
                                 </li>
                                 <li><strong>Encoder class:</strong> consolidates the <code>MP3</code> encoding process.
                                     Receives paths to files and takes
@@ -514,9 +516,9 @@
                             <ul>
                                 <li>decode <code>MP3</code> file to <code>WAV</code> file.</li>
                                 <li>encode <code>WAV</code> file to <code>MP3</code> file.</li>
-                                <li>hide string in <code>MP3</code> file.</li>
-                                <li>reveal string in <code>MP3</code> file.</li>
-                                <li>clean <code>MP3</code> file from any string.</li>
+                                <li>hide string in the <code>MP3</code> file.</li>
+                                <li>reveal a string hidden in <code>MP3</code> file.</li>
+                                <li>clean a <code>MP3</code> file from hidden strings that it might hide.</li>
                             </ul>
                         </li>
                     </ol>
