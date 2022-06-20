@@ -27,6 +27,11 @@ TAB_ID_TO_TAB_NUM = {
     'about-tab': 7,
 }
 
+is_uploads_exist = os.path.exists(UPLOAD_FOLDER)
+
+if not is_uploads_exist:
+    os.makedirs(UPLOAD_FOLDER)
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
