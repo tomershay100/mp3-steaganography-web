@@ -176,9 +176,8 @@ def delete_all_used_files():
 
 
 def delete_all_files():
-    folder_path = '/uploads'
-    for f in os.listdir(folder_path):
-        os.remove(os.path.join(folder_path, f))
+    for f in os.listdir(UPLOAD_FOLDER):
+        os.remove(get_full_path(f))
 
 
 @app.route('/reset/<tab_name>')
